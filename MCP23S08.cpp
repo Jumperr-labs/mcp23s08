@@ -338,7 +338,6 @@ void MCP23S08::WriteOLAT(const uint8_t data) {
         if (output_pin) {
             SetPinLevel(pins_[i], pin_level);
         }
-
         // Go to next pin
         output_pin = (output_pins >> (i + 1)) & 0x01;
         pin_level = ((data ^ registers_[IPOL_ADDR]) >> (i + 1)) & 0x01;
@@ -499,8 +498,8 @@ void MCP23S08::Stop() {
 // Reset all registers of MCP23S08
 // All regs reset values are zero except IODIR register, which should be 0xFF
 void MCP23S08::Reset() {
-   registers_[IODIR_ADDR] = 0XFF;
    std::fill(registers_, registers_ + MCP_REGS, 0);
+   registers_[IODIR_ADDR] = 0XFF;
 
    WriteGPIO(0); // For reset output pin levels
 }
